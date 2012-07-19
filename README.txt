@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------
-HttpFS backport for cdh3u4 - Hadoop HDFS over HTTP
+HttpFS backport for cdh3u5 - Hadoop HDFS over HTTP
 
 The HttpFS source for this backport has been taken from the following
 Apache Hadoop Subversion branch@revision:
@@ -28,7 +28,7 @@ Requirements:
 
 How to build:
 
-  Clone this Git repository. Checkout the cdh3u4 branch.
+  Clone this Git repository. Checkout the cdh3u5 branch.
 
   Run 'mvn package -Pdist'.
 
