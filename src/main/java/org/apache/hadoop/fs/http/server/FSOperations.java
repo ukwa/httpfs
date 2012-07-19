@@ -21,7 +21,6 @@ import org.apache.hadoop.fs.ContentSummary;
 import org.apache.hadoop.fs.FileChecksum;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.GlobFilter;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 import org.apache.hadoop.fs.http.client.HttpFSFileSystem;
@@ -270,10 +269,10 @@ public class FSOperations {
     @Override
     public Void execute(FileSystem fs) throws IOException {
       if (replication == -1) {
-        replication = fs.getDefaultReplication(path);
+        replication = fs.getDefaultReplication();
       }
       if (blockSize == -1) {
-        blockSize = fs.getDefaultBlockSize(path);
+        blockSize = fs.getDefaultBlockSize();
       }
       FsPermission fsPermission = new FsPermission(permission);
       int bufferSize = fs.getConf().getInt("httpfs.buffer.size", 4096);
@@ -427,7 +426,7 @@ public class FSOperations {
      */
     public FSListStatus(String path, String filter) throws IOException {
       this.path = new Path(path);
-      this.filter = (filter == null) ? this : new GlobFilter(filter);
+      this.filter = this;
     }
 
     /**

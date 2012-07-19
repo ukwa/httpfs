@@ -18,9 +18,8 @@
 
 package org.apache.hadoop.lib.wsrs;
 
-import org.apache.hadoop.util.StringUtils;
-
 import java.util.Arrays;
+import java.util.Iterator;
 
 public abstract class EnumParam<E extends Enum<E>> extends Param<E> {
   Class<E> klass;
@@ -36,7 +35,21 @@ public abstract class EnumParam<E extends Enum<E>> extends Param<E> {
 
   @Override
   protected String getDomain() {
-    return StringUtils.join(",", Arrays.asList(klass.getEnumConstants()));
+    return join(",", Arrays.asList(klass.getEnumConstants()));
+  }
+
+  //StringUtils does not have this method in cdh3
+  private static String join(CharSequence separator, Iterable<?> strings) {
+    Iterator<?> i = strings.iterator();
+    if (!i.hasNext()) {
+      return "";
+    }
+    StringBuilder sb = new StringBuilder(i.next().toString());
+    while (i.hasNext()) {
+      sb.append(separator);
+      sb.append(i.next().toString());
+    }
+    return sb.toString();
   }
 
 }

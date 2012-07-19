@@ -30,11 +30,13 @@ public class TestServerWebApp extends HTestCase {
 
   @Test(expected = IllegalArgumentException.class)
   public void getHomeDirNotDef() {
+    ServerWebApp.setHomeDirForCurrentThread(null);
     ServerWebApp.getHomeDir("TestServerWebApp00");
   }
 
   @Test
   public void getHomeDir() {
+    ServerWebApp.setHomeDirForCurrentThread(null);
     System.setProperty("TestServerWebApp0.home.dir", "/tmp");
     assertEquals(ServerWebApp.getHomeDir("TestServerWebApp0"), "/tmp");
     assertEquals(ServerWebApp.getDir("TestServerWebApp0", ".log.dir", "/tmp/log"), "/tmp/log");

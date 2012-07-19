@@ -22,7 +22,7 @@ import java.net.URI;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.hdfs.web.WebHdfsFileSystem;
+//import org.apache.hadoop.hdfs.web.WebHdfsFileSystem;
 import org.apache.hadoop.test.TestJettyHelper;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
@@ -35,6 +35,7 @@ public class TestWebhdfsFileSystem extends TestHttpFSFileSystem {
     super(operation);
   }
 
+/* TODO: remove this when webhdfs is backported to cdh3u4, webhdfs:// will then be avail
   @Override
   protected FileSystem getHttpFileSystem() throws Exception {
     Configuration conf = new Configuration();
@@ -51,5 +52,5 @@ public class TestWebhdfsFileSystem extends TestHttpFSFileSystem {
     Assert.assertEquals(fs.getUri(), uri);
     fs.close();
   }
-
+*/
 }

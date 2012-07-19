@@ -104,14 +104,11 @@ public class HttpFSFileSystem extends FileSystem {
     FILE, DIRECTORY, SYMLINK;
 
     public static FILE_TYPE getType(FileStatus fileStatus) {
-      if (fileStatus.isFile()) {
+      if (!fileStatus.isDir()) {
         return FILE;
       }
-      if (fileStatus.isDirectory()) {
+      if (fileStatus.isDir()) {
         return DIRECTORY;
-      }
-      if (fileStatus.isSymlink()) {
-        return SYMLINK;
       }
       throw new IllegalArgumentException("Could not determine filetype for: " +
                                          fileStatus.getPath());
@@ -813,11 +810,8 @@ public class HttpFSFileSystem extends FileSystem {
                                     permission, owner, group, path);
         break;
       case SYMLINK:
-        Path symLink = null;
-        fileStatus = new FileStatus(len, false,
-                                    replication, blockSize, mTime, aTime,
-                                    permission, owner, group, symLink,
-                                    path);
+        throw new IllegalArgumentException("SYMLINKs are not supported in cdh3 : " +
+                                           fileStatus.getPath());
     }
     return fileStatus;
   }

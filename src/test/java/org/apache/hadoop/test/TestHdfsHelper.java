@@ -65,7 +65,7 @@ public class TestHdfsHelper extends TestDirHelper {
       Configuration conf = HadoopUsersConfTestHelper.getBaseConf();
       if (Boolean.parseBoolean(System.getProperty(HADOOP_MINI_HDFS, "true"))) {
         miniHdfs = startMiniHdfs(conf);
-        conf = miniHdfs.getConfiguration(0);
+        conf = miniHdfs.getFileSystem().getConf();
       }
       try {
         HDFS_CONF_TL.set(conf);
@@ -143,14 +143,15 @@ public class TestHdfsHelper extends TestDirHelper {
       conf.set("dfs.block.access.token.enable", "false");
       conf.set("dfs.permissions", "true");
       conf.set("hadoop.security.authentication", "simple");
-      MiniDFSCluster.Builder builder = new MiniDFSCluster.Builder(conf);
-      builder.numDataNodes(2);
-      MiniDFSCluster miniHdfs = builder.build();
+      MiniDFSCluster miniHdfs = new MiniDFSCluster(conf, 1, true, null);
       FileSystem fileSystem = miniHdfs.getFileSystem();
       fileSystem.mkdirs(new Path("/tmp"));
       fileSystem.mkdirs(new Path("/user"));
+      fileSystem.mkdirs(new Path("/hadoop/mapred/system"));
       fileSystem.setPermission(new Path("/tmp"), FsPermission.valueOf("-rwxrwxrwx"));
       fileSystem.setPermission(new Path("/user"), FsPermission.valueOf("-rwxrwxrwx"));
+      fileSystem.setPermission(new Path("/hadoop/mapred/system"), FsPermission.valueOf("-rwx------"));
+      String nnURI = fileSystem.getUri().toString();
       MINI_DFS = miniHdfs;
     }
     return MINI_DFS;

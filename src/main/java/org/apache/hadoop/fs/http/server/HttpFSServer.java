@@ -439,7 +439,7 @@ public class HttpFSServer {
     UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
     uriBuilder = uriBuilder.replaceQueryParam(OperationParam.NAME, uploadOperation).
       queryParam(DataParam.NAME, Boolean.TRUE);
-    return uriBuilder.build(null);
+    return uriBuilder.build((Object)null);
   }
 
 
