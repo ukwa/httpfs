@@ -247,8 +247,10 @@ public class HttpFSServer {
         AUDIT_LOG.info("[{}] offset [{}] len [{}]",
                        new Object[]{path, offset, len});
         InputStreamEntity entity = new InputStreamEntity(is, offset, len);
+        // Also determine length of item and add to response.
+        long fileLength = fs.getFileStatus(new org.apache.hadoop.fs.Path(path)).getLen(); 
         response =
-          Response.ok(entity).type(MediaType.APPLICATION_OCTET_STREAM).build();
+          Response.ok(entity).type(MediaType.APPLICATION_OCTET_STREAM).header(javax.ws.rs.core.HttpHeaders.CONTENT_LENGTH, fileLength).build();
         break;
       }
       case GETFILESTATUS: {
