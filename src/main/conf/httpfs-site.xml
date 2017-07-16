@@ -15,6 +15,6 @@
 <configuration>
   <property>
     <name>httpfs.hadoop.config.dir</name>
-    <value>/etc/hadoop-0.20/conf.wap/</value>
+    <value>/etc/hadoop/conf/</value>
   </property>
 </configuration>
