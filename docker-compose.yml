@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+
+  # HttpFS to provide a gateway to WebHDFS:
+  httpfs:
+    build: .
+    ports:
+      - "14000:14000"
+    links:
+      - hadoop
+
+  # A single-node Hadoop and HDFS instance
+  # Volumes are used to give the system some headroom.
+  hadoop:
+    image: sequenceiq/hadoop-docker:2.7.0
+    command: "sh -c '/usr/local/hadoop/sbin/httpfs.sh start ; /etc/bootstrap.sh -d'"
+    ports:
+      - "50070:50070"
+      - "50075:50075"
+      - "8088:8088"
+      - "8042:8042"
+      - "9000:9000"
+      - "50010:50010"
+      - "14000:14000"
+    hostname: hadoop
+    volumes:
+      - "./testing/hadoop-root-nm-local-dir:/tmp/hadoop-root/nm-local-dir"
+      - "./testing/hadoop-userlogs:/usr/local/hadoop/logs/userlogs" 
+
