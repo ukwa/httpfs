@@ -22,11 +22,11 @@
   <parent>
     <groupId>com.cloudera.cdh</groupId>
     <artifactId>cdh-root</artifactId>
-    <version>3.0-u5-SNAPSHOT</version>
+    <version>3.0-u7-SNAPSHOT</version>
   </parent>
   <groupId>org.apache.hadoop</groupId>
   <artifactId>hadoop-hdfs-httpfs</artifactId>
-  <version>0.20.2-cdh3u5-SNAPSHOT</version>
+  <version>0.20.2-cdh3u7-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>Apache Hadoop HttpFS for cdh3</name>
@@ -63,6 +63,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
     <httpfs.build.timestamp>${maven.build.timestamp}</httpfs.build.timestamp>
     <httpfs.tomcat.dist.dir>${project.build.directory}/${project.artifactId}-${project.version}/share/hadoop/httpfs/tomcat</httpfs.tomcat.dist.dir>
+    <cdh.hadoop.version>0.20.2-cdh3u4</cdh.hadoop.version>
   </properties>
 
   <dependencyManagement>
