@@ -18,5 +18,9 @@ RUN cd /opt && \
 
 WORKDIR /opt/hadoop-hdfs-httpfs
 
+RUN useradd -ms /bin/bash tomcat
+RUN chown -R tomcat /opt
+USER tomcat
+
 CMD ./sbin/httpfs.sh run
 
