@@ -18,9 +18,14 @@ RUN cd /opt && \
 
 WORKDIR /opt/hadoop-hdfs-httpfs
 
-RUN useradd -ms /bin/bash tomcat
-RUN chown -R tomcat /opt
-USER tomcat
+# Add a httpfs group with two users
+RUN groupadd -r httpfs && useradd --no-log-init -r -g httpfs access && useradd --no-log-init -r -g httpfs ingest
+
+# Allow either to run the service
+RUN chgrp -R httpfs /opt && chmod g+rwx -R /opt
+
+# Default to running as the access user
+USER access
 
 CMD ./sbin/httpfs.sh run
 
