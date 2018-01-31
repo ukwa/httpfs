@@ -19,7 +19,7 @@ RUN cd /opt && \
 WORKDIR /opt/hadoop-hdfs-httpfs
 
 # Add a httpfs group with two users
-RUN groupadd -r httpfs && useradd --no-log-init -r -g httpfs access && useradd --no-log-init -r -g httpfs ingest
+RUN groupadd -r httpfs && useradd --no-log-init -r -g httpfs access && useradd --no-log-init -r -g httpfs ingest && useradd --no-log-init -r -g httpfs tomcat
 
 # Allow either to run the service
 RUN chgrp -R httpfs /opt && chmod g+rwx -R /opt
