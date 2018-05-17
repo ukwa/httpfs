@@ -18,12 +18,13 @@
 
 package org.apache.hadoop.lib.wsrs;
 
-import org.apache.hadoop.io.IOUtils;
-
-import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import javax.ws.rs.core.StreamingOutput;
+
+import org.apache.hadoop.io.IOUtils;
 
 public class InputStreamEntity implements StreamingOutput {
   private InputStream is;
@@ -42,11 +43,23 @@ public class InputStreamEntity implements StreamingOutput {
 
   @Override
   public void write(OutputStream os) throws IOException {
-    IOUtils.skipFully(is, offset);
-    if (len == -1) {
-      IOUtils.copyBytes(is, os, 4096, true);
-    } else {
-      IOUtils.copyBytes(is, os, len, true);
-    }
+        //
+        // Based on the MapR fork, we wrap this to make sure the streams get
+        // closed.
+        // See
+        // https://github.com/mapr/httpfs/blob/f691ac6d7036a29e6db06430c93d790adeea22c9/src/main/java/org/apache/hadoop/lib/wsrs/InputStreamEntity.java
+        //
+        try {
+            IOUtils.skipFully(is, offset);
+            if (len == -1) {
+                IOUtils.copyBytes(is, os, 4096, true);
+            } else {
+                IOUtils.copyBytes(is, os, len, true);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
   }
+
 }
