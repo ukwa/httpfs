@@ -63,7 +63,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
     <httpfs.build.timestamp>${maven.build.timestamp}</httpfs.build.timestamp>
     <httpfs.tomcat.dist.dir>${project.build.directory}/${project.artifactId}-${project.version}/share/hadoop/httpfs/tomcat</httpfs.tomcat.dist.dir>
-    <cdh.hadoop.version>0.20.2-cdh3u4</cdh.hadoop.version>
+    <cdh.hadoop.version>0.20.2-cdh3u6</cdh.hadoop.version>
   </properties>
 
   <dependencyManagement>
