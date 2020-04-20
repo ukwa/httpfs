@@ -244,13 +244,24 @@ public class HttpFSServer {
         InputStream is = command.execute(fs);
         Long offset = params.get(OffsetParam.NAME, OffsetParam.class);
         Long len = params.get(LenParam.NAME, LenParam.class);
-        AUDIT_LOG.info("[{}] offset [{}] len [{}]",
+        AUDIT_LOG.info(
+                "[{}] offset [{}] length [{}]",
                        new Object[]{path, offset, len});
         InputStreamEntity entity = new InputStreamEntity(is, offset, len);
-        // Also determine length of item and add to response.
-        long fileLength = fs.getFileStatus(new org.apache.hadoop.fs.Path(path)).getLen(); 
-        response =
-          Response.ok(entity).type(MediaType.APPLICATION_OCTET_STREAM).header(javax.ws.rs.core.HttpHeaders.CONTENT_LENGTH, fileLength).build();
+        // Also determine length of item and add to response, if appropriate:
+        if (len == null && offset == null) {
+            long fileLength = fs
+                    .getFileStatus(new org.apache.hadoop.fs.Path(path))
+                    .getLen();
+            response = Response.ok(entity)
+                    .type(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(javax.ws.rs.core.HttpHeaders.CONTENT_LENGTH,
+                            fileLength)
+                    .build();
+        } else {
+            response = Response.ok(entity)
+                    .type(MediaType.APPLICATION_OCTET_STREAM).build();
+        }
         break;
       }
       case GETFILESTATUS: {
